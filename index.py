@@ -67,7 +67,7 @@ class BaseModel2(db.Model):
         return {
             column: value if not isinstance(value, datetime.date) else value.strftime('%Y-%m-%d')
             for column, value in self._to_dict().items()}
-class User(BaseModel,db.Model):
+class User(BaseModel1,db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Numeric, unique=True)
@@ -107,7 +107,7 @@ class News(BaseModel2,db.Model):
     def __repr__(self):
         return '<News %r>' %self.titre  
 
-    
+
 @app.route('/', methods=['GET', 'POST']) #A decorator that is used to register a view function for a given URL rule. Ici rule = / et en option les methodes assignées à ce rule
 def webhook():
     if request.method == 'POST':  # Toutes les requetes post passent par la ; dans les deux sens
