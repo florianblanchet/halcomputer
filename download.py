@@ -174,6 +174,7 @@ def download_resultats_liga():
 def download_info_user(user_id,token):
     r = requests.get('https://graph.facebook.com/v2.6/'+user_id+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token)
     data = json.loads(r.text)
+    print(data)
     first_name = data["first_name"]
     last_name = data["last_name"]
     timezone = data['timezone']

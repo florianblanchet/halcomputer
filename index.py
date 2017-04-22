@@ -105,16 +105,6 @@ class News(BaseModel2,db.Model):
        
     def __repr__(self):
         return '<News %r>' %self.titre  
-def extract_news(categorie):
-    articles = []
-    for newss in db.session.query(News).filter_by(categorie=categorie):
-        article = {}
-        article['titre'] = newss.titre
-        article['journal'] = newss.journal
-        article['lien'] = newss.lien
-        article['image'] = newss.image
-        articles.append(article)
-    return articles
 
 @app.route('/', methods=['GET', 'POST']) #A decorator that is used to register a view function for a given URL rule. Ici rule = / et en option les methodes assignées à ce rule
 def webhook():

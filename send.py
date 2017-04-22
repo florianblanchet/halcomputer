@@ -2,7 +2,7 @@
 import wikipedia
 from toolkit import recherche_similitude
 from download import download_meteo, download_news
-from index import *
+from index import db
 
 def send_classement_ligue1(sender, tableau):
     texte = ''
@@ -236,6 +236,17 @@ def send_news2(sender,mot_suivant):
     une = extract_news('une')
     payload = send_link6(sender,une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
   return payload
+def extract_news(categorie):
+    articles = []
+    for newss in db.session.query(News).filter_by(categorie=categorie):
+        article = {}
+        article['titre'] = newss.titre
+        article['journal'] = newss.journal
+        article['lien'] = newss.lien
+        article['image'] = newss.image
+        articles.append(article)
+    return articles
+
 
 def send_wiki(sender,mots_du_msg,wiki_liste):
     wikipedia.set_lang("fr")
