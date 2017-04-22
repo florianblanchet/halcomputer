@@ -105,7 +105,16 @@ class News(BaseModel2,db.Model):
        
     def __repr__(self):
         return '<News %r>' %self.titre  
-
+def extract_news(categorie):
+    articles = []
+    for newss in db.session.query(News).filter_by(categorie=categorie):
+        article = {}
+        article['titre'] = newss.titre
+        article['journal'] = newss.journal
+        article['lien'] = newss.lien
+        article['image'] = newss.image
+        articles.append(article)
+    return articles
 
 @app.route('/', methods=['GET', 'POST']) #A decorator that is used to register a view function for a given URL rule. Ici rule = / et en option les methodes assignées à ce rule
 def webhook():
@@ -454,16 +463,7 @@ def send_paquet(sender,payload):
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
     print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
     pass
-def extract_news(categorie):
-    articles = []
-    for newss in db.session.query(News).filter_by(categorie=categorie):
-        article = {}
-        article['titre'] = newss.titre
-        article['journal'] = newss.journal
-        article['lien'] = newss.lien
-        article['image'] = newss.image
-        articles.append(article)
-    return articles
+
 
 if __name__ == '__main__':
     #db.create_all()
