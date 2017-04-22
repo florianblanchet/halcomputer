@@ -172,7 +172,8 @@ def download_resultats_liga():
         hello.append([nom_domicile,nom_exterieur,nb_result])
     return hello
 def download_info_user(user_id,token):
-    r = requests.get('https://graph.facebook.com/v2.6/'+user_id+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token)
+    #r = requests.get('https://graph.facebook.com/v2.6/'+user_id+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=' + token)
+    r = requests.get('https://graph.facebook.com/v2.6/'+user_id+'?fields=last_name,profile_pic,locale,timezone,gender&access_token=' + token)
     data = json.loads(r.text)
     print(data)
     first_name = data["first_name"]

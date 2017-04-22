@@ -453,7 +453,43 @@ def send_paquet(sender,payload):
     r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
     print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
     pass
-
+def send_news2(sender,mot_suivant):
+  if mot_suivant in ['sport']:
+    texte = "Quel sport t'interesse ? "
+    payload = send_choix_multiple3(sender,texte,'Tout sport','Foot','Rugby')
+    return payload
+  if mot_suivant in ['world','monde']:
+    world = extract_news('world')
+    payload = send_link4(sender,world[0]['titre'],world[0]['journal'],world[0]['image'],world[0]['lien'],world[1]['titre'],world[1]['journal'],world[1]['image'],world[1]['lien'],world[2]['titre'],world[2]['journal'],world[2]['image'],world[2]['lien'],world[3]['titre'],world[3]['journal'],world[3]['image'],world[3]['lien'])
+  elif mot_suivant in ['france']:
+    france = extract_news('france')
+    payload = send_link4(sender,france[0]['titre'],france[0]['journal'],france[0]['image'],france[0]['lien'],france[1]['titre'],france[1]['journal'],france[1]['image'],france[1]['lien'],france[2]['titre'],france[2]['journal'],france[2]['image'],france[2]['lien'],france[3]['titre'],france[3]['journal'],france[3]['image'],france[3]['lien'])
+  elif mot_suivant in ['economie','business']:
+    economie = extract_news('economie')
+    payload = send_link4(sender,economie[0]['titre'],economie[0]['journal'],economie[0]['image'],economie[0]['lien'],economie[1]['titre'],economie[1]['journal'],economie[1]['image'],economie[1]['lien'],economie[2]['titre'],economie[2]['journal'],economie[2]['image'],economie[2]['lien'],economie[3]['titre'],economie[3]['journal'],economie[3]['image'],economie[3]['lien'])
+  elif mot_suivant in ['sante']:
+    sante = extract_news('sante')
+    payload = send_link4(sender,sante[0]['titre'],sante[0]['journal'],sante[0]['image'],sante[0]['lien'],sante[1]['titre'],sante[1]['journal'],sante[1]['image'],sante[1]['lien'],sante[2]['titre'],sante[2]['journal'],sante[2]['image'],sante[2]['lien'],sante[3]['titre'],sante[3]['journal'],sante[3]['image'],sante[3]['lien'])
+  elif mot_suivant in ['culture']:
+    culture = extract_news('culture')
+    payload = send_link4(sender,culture[0]['titre'],culture[0]['journal'],culture[0]['image'],culture[0]['lien'],culture[1]['titre'],culture[1]['journal'],culture[1]['image'],culture[1]['lien'],culture[2]['titre'],culture[2]['journal'],culture[2]['image'],culture[2]['lien'],culture[3]['titre'],culture[3]['journal'],culture[3]['image'],culture[3]['lien'])
+  elif mot_suivant in ['science']:
+    science = extract_news('science')
+    payload = send_link4(sender,science[0]['titre'],science[0]['journal'],science[0]['image'],science[0]['lien'],science[1]['titre'],science[1]['journal'],science[1]['image'],science[1]['lien'],science[2]['titre'],science[2]['journal'],science[2]['image'],science[2]['lien'],science[3]['titre'],science[3]['journal'],science[3]['image'],science[3]['lien'])
+  else :
+    une = extract_news('une')
+    payload = send_link6(sender,une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
+  return payload
+def extract_news(categorie):
+    articles = []
+    for newss in db.session.query(News).filter_by(categorie=categorie):
+        article = {}
+        article['titre'] = newss.titre
+        article['journal'] = newss.journal
+        article['lien'] = newss.lien
+        article['image'] = newss.image
+        articles.append(article)
+    return articles
 
 if __name__ == '__main__':
     #db.create_all()
