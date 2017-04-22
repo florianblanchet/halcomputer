@@ -118,6 +118,7 @@ def webhook():
 
             # Controle si l'user est dans la base de donnée
             # Dans l'avenir faire ça au moment du get started -> gagne du temps de traitement
+            print(db.session.query(User).filter(User.user_id==int(sender)).count())
             if not db.session.query(User).filter(User.user_id==int(sender)).count() and (sender!=me):
                 first_name,last_name,gender,locale,timezone = download_info_user(sender,token)
                 reg = User(int(sender),first_name,last_name,gender,locale,timezone)
