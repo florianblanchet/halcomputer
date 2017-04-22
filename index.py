@@ -317,9 +317,9 @@ def webhook():
                         mot_suivant = mots_du_msg[1]
                         if mot_suivant in ['sport']:
                             actu_sport = 1 # On lui enverra l'actu
-                            une,world,france,economie,science,culture,sport,sante = download_news()
+                            sport = extract_news('sport')
                             #payload = send_news(sender,mot_suivant,0,actu_sport)
-                            payload = send_link4(sender,sport[0][2],sport[0][0],sport[0][3],sport[0][1],sport[1][2],sport[1][0],sport[1][3],sport[1][1],sport[2][2],sport[2][0],sport[2][3],sport[2][1],sport[3][2],sport[3][0],sport[3][3],sport[3][1])
+                            payload = send_link4(sender,sport[0]['titre'],sport[0]['journal'],sport[0]['image'],sport[0]['lien'],sport[1]['titre'],sport[1]['journal'],sport[1]['image'],sport[1]['lien'],sport[2]['titre'],sport[2]['journal'],sport[2]['image'],sport[2]['lien'],sport[3]['titre'],sport[3]['journal'],sport[3]['image'],sport[3]['lien'])
                             send_paquet(sender,payload)
                             texte = "Si tu as encore faim voici la carte :"
                             payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
@@ -344,9 +344,9 @@ def webhook():
                     print('Demande championnat envoyée')
                     return 'nothing'
 
-                elif similitudes(['reglage'],mots_du_msg)!=[]:
-                    payload = reglage_menu()
-                    requests.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token=' + token1, json=payload)
+                #elif similitudes(['reglage'],mots_du_msg)!=[]:
+                    #payload = reglage_menu()
+                    #requests.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token=' + token1, json=payload)
                     #payload = description()
                     #requests.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token=' + token1, json=payload)
                     #print('Menu hal changé')
@@ -450,134 +450,21 @@ wiki_img = 'http://www.icone-png.com/png/25/24983.png'
 date_img = 'https://cdn2.iconfinder.com/data/icons/perfect-flat-icons-2/512/Date_calendar_event_month_time_day_vector.png'
 pomme_img = 'https://s2.qwant.com/thumbr/0x0/5/8/3078a9585992fbea80e57c386326b7/b_1_q_0_p_0.jpg?u=http%3A%2F%2Fwww.free-icons-download.net%2Fimages%2Fred-apple-icon-54633.png&q=0&b=1&p=0&a=1' 
 
-def traitement_actu(postback,sender,actu_sport):
-    if postback[:-1]=='reponse_actufr':
-        payload = send_news(sender,'france',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News france '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actumon':
-        payload = send_news(sender,'monde',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News monde '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actuec':
-        payload = send_news(sender,'economie',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News economie '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actucu':
-        payload = send_news(sender,'culture',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News culture '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actusa':
-        payload = send_news(sender,'sante',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News sante '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actusp':
-        payload = send_news(sender,'sport',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News sport '+str(postback[-1]),'envoyées')
-    elif postback[:-1]=='reponse_actutop':
-        payload = send_news(sender,'top',postback[-1],actu_sport)
-        send_paquet(token,payload)
-        print('News top '+str(postback[-1]),'envoyées')
-
 # ENVOYER UN PAYLOAD
 def send_paquet(sender,payload):
-    requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+    r = requests.post('https://graph.facebook.com/v2.6/me/messages/?access_token=' + token, json=payload)
+    print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
     pass
-
-# INTERACTION UTILISATEUR PAS ENCORE UTILISE
-def msg_seen(sender):
-    payload = {
-        "recipient":{
-            "id":sender
-            },
-        "sender_action":"mark_seen"
-    }
-    send_paquet(sender,payload)
-def typing_on(sender):
-    payload = {
-        "recipient":{
-            "id":sender
-            },
-        "sender_action":"typing_on"
-    }
-    send_paquet(sender,payload)
-def typing_off(sender):
-    payload = {
-        "recipient":{
-            "id":sender
-            },
-        "sender_action":"typing_off"
-    }
-    send_paquet(sender,payload)
-
-# CONFIGURATION DE LA PAGE HAL
-def reglage_menu():
-    payload = {
-  "persistent_menu":[
-    {
-      "locale":"default",
-      "call_to_actions":[
-        {
-          "type":"postback",
-          "title":"Menu",
-          "payload":"menu"
-        },
-        {
-          "title":"Actualités",
-          "type":"nested",
-          "call_to_actions":[
-            {
-              "title":"A la une",
-              "type":"postback",
-              "payload":"actuune"
-            },
-            {
-              "title":"Actu Monde",
-              "type":"postback",
-              "payload":"actumonde"
-            },
-            {
-              "title":"Actu Sport",
-              "type":"postback",
-              "payload":"actusport"
-            }
-          ]
-        },
-        {
-          "type":"postback",
-          "title":"Fais croquer !",
-          "payload":"partage"
-        }
-      ]
-    },
-    {
-      "locale":"zh_CN",
-      "composer_input_disabled":"false"
-    }
-  ]
- }
-    return payload
-def get_started():
-    payload = { 
-  "get_started":{
-    "payload":"salut"
-  }
- }
-    return payload
-def description():
-    payload = {
-  "greeting":[
-    {
-      "locale":"default",
-      "text":"Salut {{user_first_name}}, commençons à discuter !"
-    }, {
-      "locale":"en_US",
-      "text":"Hi {{user_first_name}}, let's start!"
-    }
-  ] 
- }
-    return payload
+def extract_news(categorie):
+    articles = []
+    for newss in db.session.query(News).filter_by(categorie=categorie):
+        article = {}
+        article['titre'] = newss.titre
+        article['journal'] = newss.journal
+        article['lien'] = newss.lien
+        article['image'] = newss.image
+        articles.append(article)
+    return articles
 
 if __name__ == '__main__':
     #db.create_all()

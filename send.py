@@ -144,7 +144,7 @@ def location_quick_answer(sender):
         }
     }
 def send_news(sender,mot_suivant,number,actu_sport):
-    une,world,france,economie,science,culture,sport,sante = download_news()
+    #une,world,france,economie,science,culture,sport,sante = download_news()
     nom_lien = "Accéder à l'article"
     if mot_suivant in ['world','World','monde','Monde']:
         index_suivant = (int(number)+1)%len(world)
@@ -214,22 +214,27 @@ def send_news2(sender,mot_suivant):
     texte = "Quel sport t'interesse ? "
     payload = send_choix_multiple3(sender,texte,'Tout sport','Foot','Rugby')
     return payload
-  une,world,france,economie,science,culture,sport,sante = download_news()
-  nom_lien = "Accéder à l'article"
   if mot_suivant in ['world','monde']:
-    payload = send_link4(sender,world[0][2],world[0][0],world[0][3],world[0][1],world[1][2],world[1][0],world[1][3],world[1][1],world[2][2],world[2][0],world[2][3],world[2][1],world[3][2],world[3][0],world[3][3],world[3][1])
+    world = extract_news('world')
+    payload = send_link4(sender,world[0]['titre'],world[0]['journal'],world[0]['image'],world[0]['lien'],world[1]['titre'],world[1]['journal'],world[1]['image'],world[1]['lien'],world[2]['titre'],world[2]['journal'],world[2]['image'],world[2]['lien'],world[3]['titre'],world[3]['journal'],world[3]['image'],world[3]['lien'])
   elif mot_suivant in ['france']:
-    payload = send_link4(sender,france[0][2],france[0][0],france[0][3],france[0][1],france[1][2],france[1][0],france[1][3],france[1][1],france[2][2],france[2][0],france[2][3],france[2][1],france[3][2],france[3][0],france[3][3],france[3][1])
+    france = extract_news('france')
+    payload = send_link4(sender,france[0]['titre'],france[0]['journal'],france[0]['image'],france[0]['lien'],france[1]['titre'],france[1]['journal'],france[1]['image'],france[1]['lien'],france[2]['titre'],france[2]['journal'],france[2]['image'],france[2]['lien'],france[3]['titre'],france[3]['journal'],france[3]['image'],france[3]['lien'])
   elif mot_suivant in ['economie','business']:
-    payload = send_link4(sender,economie[0][2],economie[0][0],economie[0][3],economie[0][1],economie[1][2],economie[1][0],economie[1][3],economie[1][1],economie[2][2],economie[2][0],economie[2][3],economie[2][1],economie[3][2],economie[3][0],economie[3][3],economie[3][1])
+    economie = extract_news('economie')
+    payload = send_link4(sender,economie[0]['titre'],economie[0]['journal'],economie[0]['image'],economie[0]['lien'],economie[1]['titre'],economie[1]['journal'],economie[1]['image'],economie[1]['lien'],economie[2]['titre'],economie[2]['journal'],economie[2]['image'],economie[2]['lien'],economie[3]['titre'],economie[3]['journal'],economie[3]['image'],economie[3]['lien'])
   elif mot_suivant in ['sante']:
-    payload = send_link4(sender,sante[0][2],sante[0][0],sante[0][3],sante[0][1],sante[1][2],sante[1][0],sante[1][3],sante[1][1],sante[2][2],sante[2][0],sante[2][3],sante[2][1],sante[3][2],sante[3][0],sante[3][3],sante[3][1])
+    sante = extract_news('sante')
+    payload = send_link4(sender,sante[0]['titre'],sante[0]['journal'],sante[0]['image'],sante[0]['lien'],sante[1]['titre'],sante[1]['journal'],sante[1]['image'],sante[1]['lien'],sante[2]['titre'],sante[2]['journal'],sante[2]['image'],sante[2]['lien'],sante[3]['titre'],sante[3]['journal'],sante[3]['image'],sante[3]['lien'])
   elif mot_suivant in ['culture']:
-    payload = send_link4(sender,culture[0][2],culture[0][0],culture[0][3],culture[0][1],culture[1][2],culture[1][0],culture[1][3],culture[1][1],culture[2][2],culture[2][0],culture[2][3],culture[2][1],culture[3][2],culture[3][0],culture[3][3],culture[3][1])
+    culture = extract_news('culture')
+    payload = send_link4(sender,culture[0]['titre'],culture[0]['journal'],culture[0]['image'],culture[0]['lien'],culture[1]['titre'],culture[1]['journal'],culture[1]['image'],culture[1]['lien'],culture[2]['titre'],culture[2]['journal'],culture[2]['image'],culture[2]['lien'],culture[3]['titre'],culture[3]['journal'],culture[3]['image'],culture[3]['lien'])
   elif mot_suivant in ['science']:
-    payload = send_link4(sender,science[0][2],science[0][0],science[0][3],science[0][1],science[1][2],science[1][0],science[1][3],science[1][1],science[2][2],science[2][0],science[2][3],science[2][1],science[3][2],science[3][0],science[3][3],science[3][1])
+    science = extract_news('science')
+    payload = send_link4(sender,science[0]['titre'],science[0]['journal'],science[0]['image'],science[0]['lien'],science[1]['titre'],science[1]['journal'],science[1]['image'],science[1]['lien'],science[2]['titre'],science[2]['journal'],science[2]['image'],science[2]['lien'],science[3]['titre'],science[3]['journal'],science[3]['image'],science[3]['lien'])
   else :
-    payload = send_link6(sender,une[0][2],une[0][0],une[0][3],une[0][1],une[1][2],une[1][0],une[1][3],une[1][1],une[2][2],une[2][0],une[2][3],une[2][1],une[3][2],une[3][0],une[3][3],une[3][1],une[4][2],une[4][0],une[4][3],une[4][1],une[5][2],une[5][0],une[5][3],une[5][1])
+    une = extract_news('une')
+    payload = send_link6(sender,une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
   return payload
 
 def send_wiki(sender,mots_du_msg,wiki_liste):
@@ -244,7 +249,7 @@ def send_meteo(sender,api_key_weather,latitude,longitude):
        'Humidité: {}\n' \
        'Max: {}\n' \
        'Min: {}'.format(description, weather['temp'], weather['pressure'], weather['humidity'], weather['temp_max'], weather['temp_min'])
-    payload = send_choix_multiple1(sender,texte,'Retour Menu')
+    payload = send_text(sender,texte)
     return payload
 def send_link6 (sender,title1,subtitle1,image_url1,link1,title2,subtitle2,image_url2,link2,title3,subtitle3,image_url3,link3,title4,subtitle4,image_url4,link4,title5,subtitle5,image_url5,link5,title6,subtitle6,image_url6,link6):
     return {
@@ -887,4 +892,4 @@ def send_choix_multiple7(sender,texte,choix1,choix2,choix3,choix4,choix5,choix6,
       }
     ]
   }
- }
+ } 
