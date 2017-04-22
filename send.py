@@ -2,7 +2,7 @@
 import wikipedia
 from toolkit import recherche_similitude
 from download import download_meteo, download_news
-from index import db
+from index import *
 
 def send_classement_ligue1(sender, tableau):
     texte = ''
