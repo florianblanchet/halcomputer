@@ -25,7 +25,7 @@ db = SQLAlchemy()
 db.app=app
 db.init_app(app)
 
-class BaseModel(db.Model):
+class BaseModel1(db.Model):
     """Base data model for all objects"""
     __abstract__ = True
 
@@ -47,7 +47,26 @@ class BaseModel(db.Model):
             column: value if not isinstance(value, datetime.date) else value.strftime('%Y-%m-%d')
             for column, value in self._to_dict().items()
         }
+class BaseModel2(db.Model):
+    """Base data model for all objects"""
+    __abstract__ = True
 
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def __repr__(self):
+        """Define a base way to print models"""
+        return '%s(%s)' % (self.__class__.__name__, {
+            column: value
+            for column, value in self._to_dict().items()})
+
+    def json(self):
+        """
+                Define a base way to jsonify models, dealing with datetime objects
+        """
+        return {
+            column: value if not isinstance(value, datetime.date) else value.strftime('%Y-%m-%d')
+            for column, value in self._to_dict().items()}
 class User(BaseModel,db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +88,26 @@ class User(BaseModel,db.Model):
 
     def __repr__(self):
         return '<User %r>' %self.user_id
+class News(BaseModel2,db.Model):
+    __tablename__ = "news"
+    id = db.Column(db.Integer, primary_key=True)
+    categorie = db.Column(db.String(10))
+    titre = db.Column(db.String(300))
+    journal = db.Column(db.String(100))
+    lien = db.Column(db.String(200))
+    image = db.Column(db.String(200))
 
+    def __init__(self, user_id,first_name,last_name,gender,locale,timezone):
+        self.categorie = categorie
+        self.titre = titre
+        self.journal = journal
+        self.lien = lien
+        self.image = image
+       
+    def __repr__(self):
+        return '<News %r>' %self.titre  
+
+    
 @app.route('/', methods=['GET', 'POST']) #A decorator that is used to register a view function for a given URL rule. Ici rule = / et en option les methodes assignées à ce rule
 def webhook():
     if request.method == 'POST':  # Toutes les requetes post passent par la ; dans les deux sens
