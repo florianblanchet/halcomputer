@@ -439,7 +439,7 @@ def webhook():
 @app.route('/welcome')
 def welcome():
     send_welcome()
-    print('welcome envoyé ')
+    print('welcome envoyé')
     return 'welcome'
 
 nouveaute = "Nouveauté : Refonte de l'affichage de l'actualité\n"
@@ -515,7 +515,7 @@ def liste_user():
 def send_welcome():
     liste_users = liste_user()
     print('liste des users :')
-    print(liste_user)
+    print(str(liste_user[0]))
     r = requests.post('https://pure-tundra-75365.herokuapp.com/')
     print(r.text)
     start_time = time.time()
@@ -528,7 +528,8 @@ def send_welcome():
         send_paquet(token,payload)
         payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
         send_paquet(token,payload)
-    print('welcome envoyé')
+        print('envoyé à '+str(user[0]))
+
 if __name__ == '__main__':
     #db.create_all()
     app.run(debug=True,use_reloader=False)
