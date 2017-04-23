@@ -140,28 +140,29 @@ def webhook():
 
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
-                        mot_suivant = mots_du_msg[recherche_similitude(actu_liste,mots_du_msg)]
-                        payload = send_news2(sender,mot_suivant)
-                        send_paquet(token,payload)
-                        if mot_suivant !='sport':
-                            texte = "Si tu as encore faim voici la carte :"
-                            payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                        indice = recherche_similitude(actu_liste,mots_du_msg)
+                        if indice==None:
+                            texte = "Choisis ta catégorie :"
+                            payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
                             send_paquet(token,payload)
-                        print('News envoyées')
-                        ### Actualisation des news si ca fait plus de 10min
-                        if (time.time() - start_time)>600:
-                            print('Heure départ recup news'+str(time.time() - start_time))
-                            r = requests.post('https://pure-tundra-75365.herokuapp.com/')
-                            print(r.text)
-                            print('Heure départ recup news'+str(time.time() - start_time))
-                            start_time = time.time()
-                        return 'nothing'
-                    else:  #Cas ou on met juste message 'actualité'
-                        texte = "Choisis ta catégorie :"
-                        payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
-                        send_paquet(token,payload)
-                        print('News envoyées')
-                        return 'nothing'
+                            print('pas de categorie de news')
+                        else : 
+                            mot_suivant = mots_du_msg[indice]
+                            payload = send_news2(sender,mot_suivant)
+                            send_paquet(token,payload)
+                            if mot_suivant not in ['sport','sportive']:
+                                texte = "Si tu as encore faim voici la carte :"
+                                payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                                send_paquet(token,payload)
+                            print('News envoyées')
+                            ### Actualisation des news si ca fait plus de 10min
+                            if (time.time() - start_time)>600:
+                                print('Heure départ recup news'+str(time.time() - start_time))
+                                r = requests.post('https://pure-tundra-75365.herokuapp.com/')
+                                print(r.text)
+                                print('Heure départ recup news'+str(time.time() - start_time))
+                                start_time = time.time()
+                            return 'nothing'
 
                 elif similitudes(meteo_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1:
@@ -456,7 +457,7 @@ date_liste = ['Date','date','jour','Jour','Mois','mois','année']
 wiki_liste = ['wikipedia','wiki']
 news_liste = ['actualites','actualite','news','actu','actus','journal','newspaper']
 merci_liste = ['merci','thanks','thank','gracias']
-actu_liste = ['monde','sport','world','culture','sante','france','business','economie','science','scientifique','economique','mondiale','mondial','francaise','medicale']
+actu_liste = ['monde','sport','world','culture','sante','france','business','sportive','sportif','economie','science','scientifique','culturelle','culturel','economique','mondiale','mondial','française','francaise','medicale','medical']
 
 meteo_img = 'http://ian.umces.edu/imagelibrary/albums/userpics/12865/normal_ian-symbol-weather-solar-radiation.png'
 actu_img = 'http://icons.iconarchive.com/icons/zerode/plump/256/Network-Earth-icon.png'
@@ -470,26 +471,26 @@ def send_paquet(sender,payload):
     print(r.text) # affiche la reponse à l'envoit; pratique si veut l'ID ou voir si bien envoyé
     pass
 def send_news2(sender,mot_suivant):
-  if mot_suivant in ['sport']:
+  if mot_suivant in ['sport','sportif','sportive']:
     texte = "Quel sport t'interesse ? "
     payload = send_choix_multiple3(sender,texte,'Tout sport','Foot','Rugby')
     return payload
-  if mot_suivant in ['world','monde']:
+  if mot_suivant in ['world','monde','mondiale','mondial']:
     world = extract_news('world')
     payload = send_link4(sender,world[0]['titre'],world[0]['journal'],world[0]['image'],world[0]['lien'],world[1]['titre'],world[1]['journal'],world[1]['image'],world[1]['lien'],world[2]['titre'],world[2]['journal'],world[2]['image'],world[2]['lien'],world[3]['titre'],world[3]['journal'],world[3]['image'],world[3]['lien'])
-  elif mot_suivant in ['france']:
+  elif mot_suivant in ['france','française','francaise']:
     france = extract_news('france')
     payload = send_link4(sender,france[0]['titre'],france[0]['journal'],france[0]['image'],france[0]['lien'],france[1]['titre'],france[1]['journal'],france[1]['image'],france[1]['lien'],france[2]['titre'],france[2]['journal'],france[2]['image'],france[2]['lien'],france[3]['titre'],france[3]['journal'],france[3]['image'],france[3]['lien'])
-  elif mot_suivant in ['economie','business']:
+  elif mot_suivant in ['economie','business','economique']:
     economie = extract_news('economie')
     payload = send_link4(sender,economie[0]['titre'],economie[0]['journal'],economie[0]['image'],economie[0]['lien'],economie[1]['titre'],economie[1]['journal'],economie[1]['image'],economie[1]['lien'],economie[2]['titre'],economie[2]['journal'],economie[2]['image'],economie[2]['lien'],economie[3]['titre'],economie[3]['journal'],economie[3]['image'],economie[3]['lien'])
-  elif mot_suivant in ['sante']:
+  elif mot_suivant in ['sante','medicale','medical']:
     sante = extract_news('sante')
     payload = send_link4(sender,sante[0]['titre'],sante[0]['journal'],sante[0]['image'],sante[0]['lien'],sante[1]['titre'],sante[1]['journal'],sante[1]['image'],sante[1]['lien'],sante[2]['titre'],sante[2]['journal'],sante[2]['image'],sante[2]['lien'],sante[3]['titre'],sante[3]['journal'],sante[3]['image'],sante[3]['lien'])
-  elif mot_suivant in ['culture']:
+  elif mot_suivant in ['culture','culturelle','culturel']:
     culture = extract_news('culture')
     payload = send_link4(sender,culture[0]['titre'],culture[0]['journal'],culture[0]['image'],culture[0]['lien'],culture[1]['titre'],culture[1]['journal'],culture[1]['image'],culture[1]['lien'],culture[2]['titre'],culture[2]['journal'],culture[2]['image'],culture[2]['lien'],culture[3]['titre'],culture[3]['journal'],culture[3]['image'],culture[3]['lien'])
-  elif mot_suivant in ['science']:
+  elif mot_suivant in ['science','scientifique']:
     science = extract_news('science')
     payload = send_link4(sender,science[0]['titre'],science[0]['journal'],science[0]['image'],science[0]['lien'],science[1]['titre'],science[1]['journal'],science[1]['image'],science[1]['lien'],science[2]['titre'],science[2]['journal'],science[2]['image'],science[2]['lien'],science[3]['titre'],science[3]['journal'],science[3]['image'],science[3]['lien'])
   else :
