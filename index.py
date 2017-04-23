@@ -142,7 +142,7 @@ def webhook():
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if (time.time() - start_time)>600:
                         print(time.time() - start_time)
-                        r = requests.get('https://pure-tundra-75365.herokuapp.com/')
+                        r = requests.post('https://pure-tundra-75365.herokuapp.com/')
                         print(time.time() - start_time)
                         #print(r.text)
                         print("news actualisée")
