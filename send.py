@@ -3,7 +3,6 @@ import wikipedia
 from toolkit import recherche_similitude
 from download import download_meteo, download_news
 
-
 def send_classement_ligue1(sender, tableau):
     texte = ''
     for i in range(len(tableau)):

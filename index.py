@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy()
 db.app=app
 db.init_app(app)
+start_time = time.time()
 
 class BaseModel1(db.Model):
     """Base data model for all objects"""
@@ -108,6 +109,7 @@ class News(BaseModel2,db.Model):
 
 @app.route('/', methods=['GET', 'POST']) #A decorator that is used to register a view function for a given URL rule. Ici rule = / et en option les methodes assignées à ce rule
 def webhook():
+    global start_time
     if request.method == 'POST':  # Toutes les requetes post passent par la ; dans les deux sens
         try:
             data = json.loads(request.data.decode())  #recupere le message envoye a notre chatbot
@@ -137,6 +139,11 @@ def webhook():
                     return 'nothing'
 
                 elif similitudes(news_liste,mots_du_msg)!=[]:
+                    if (time.time() - start_time)>600:
+                        r = requests.get('https://pure-tundra-75365.herokuapp.com/')
+                        #print(r.text)
+                        print("news actualisée")
+                        start_time = time.time()
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
                         mot_suivant = mots_du_msg[recherche_similitude(news_liste,mots_du_msg)+1]
                         payload = send_news2(sender,mot_suivant)
