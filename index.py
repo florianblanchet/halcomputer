@@ -149,12 +149,12 @@ def webhook():
                             payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
                             send_paquet(token,payload)
                         print('News envoyées')
+                        ### Actualisation des news si ca fait plus de 10min
                         if (time.time() - start_time)>600:
                             print('Heure départ recup news'+str(time.time() - start_time))
                             r = requests.post('https://pure-tundra-75365.herokuapp.com/')
                             print(r.text)
                             print('Heure départ recup news'+str(time.time() - start_time))
-                            #print("news actualisée")
                             start_time = time.time()
                         return 'nothing'
                     else:  #Cas ou on met juste message 'actualité'
@@ -436,6 +436,12 @@ def webhook():
         return "Wrong Verify Token"
     return "Nothing"
 
+@app.route('/welcome')
+def welcome():
+    send_welcome()
+    print('welcome envoyé ')
+    return 'welcome'
+
 nouveaute = "Nouveauté : Refonte de l'affichage de l'actualité\n"
 
 # LISTE DE MOTS CLES 
@@ -501,7 +507,24 @@ def extract_news(categorie):
         article['image'] = newss.image
         articles.append(article)
     return articles
-
+def liste_user():
+    liste_id=[]
+    for userss in db.session.query(User):
+        liste_id.append([str(userss.user_id),str(userss.first_name)])
+    return liste_id 
+def send_welcome():
+    liste_users = liste_user()
+    print('liste des users :')
+    print(liste_user)
+    une = extract_news('une')
+    print("News téléchargé")
+    for user in liste_users:
+        texte = "Salut "+user[1]+"!\n"+"Commençons la journée avec un petit résumé de l'actu 😁 :"
+        payload = send_text(user[0],texte)
+        send_paquet(token,payload)
+        payload = send_link6(user[0],une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
+        send_paquet(token,payload)
+    print('welcome envoyé')
 if __name__ == '__main__':
     #db.create_all()
     app.run(debug=True,use_reloader=False)
