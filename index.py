@@ -149,13 +149,12 @@ def webhook():
                             payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
                             send_paquet(token,payload)
                         print('News envoyées')
-                        if (time.time() - start_time)>60:
-                            print(time.time() - start_time)
+                        if (time.time() - start_time)>600:
+                            print('Heure départ recup news'+str(time.time() - start_time))
                             r = requests.post('https://pure-tundra-75365.herokuapp.com/')
                             print(r.text)
-                            print(time.time() - start_time)
-                            #print(r.text)
-                            print("news actualisée")
+                            print('Heure départ recup news'+str(time.time() - start_time))
+                            #print("news actualisée")
                             start_time = time.time()
                         return 'nothing'
                     else:  #Cas ou on met juste message 'actualité'
