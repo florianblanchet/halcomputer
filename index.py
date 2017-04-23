@@ -456,7 +456,7 @@ date_liste = ['Date','date','jour','Jour','Mois','mois','année']
 wiki_liste = ['wikipedia','wiki']
 news_liste = ['actualites','actualite','news','actu','actus','journal','newspaper']
 merci_liste = ['merci','thanks','thank','gracias']
-actu_liste = ['monde','sport','world','culture','sante','france','business','economie','science']
+actu_liste = ['monde','sport','world','culture','sante','france','business','economie','science','scientifique','economique','mondiale','mondial','francaise','medicale']
 
 meteo_img = 'http://ian.umces.edu/imagelibrary/albums/userpics/12865/normal_ian-symbol-weather-solar-radiation.png'
 actu_img = 'http://icons.iconarchive.com/icons/zerode/plump/256/Network-Earth-icon.png'
