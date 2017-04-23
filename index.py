@@ -515,7 +515,7 @@ def liste_user():
 def send_welcome():
     liste_users = liste_user()
     print('liste des users :')
-    print(str(liste_user[0]))
+    print(str(liste_users[0]))
     r = requests.post('https://pure-tundra-75365.herokuapp.com/')
     print(r.text)
     start_time = time.time()
