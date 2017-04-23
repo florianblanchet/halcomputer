@@ -516,6 +516,10 @@ def send_welcome():
     liste_users = liste_user()
     print('liste des users :')
     print(liste_user)
+    r = requests.post('https://pure-tundra-75365.herokuapp.com/')
+    print(r.text)
+    start_time = time.time()
+    print('news actualisée')
     une = extract_news('une')
     print("News téléchargé")
     for user in liste_users:
