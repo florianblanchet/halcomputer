@@ -6,7 +6,7 @@ import json
 from flask import Flask, request
 from datetime import datetime 
 import urllib.request
-from bs4 import BeautifulSoup #version à ajouter dans requirement.txt
+from bs4 import BeautifulSoup
 from flask_sqlalchemy import SQLAlchemy
 from send import *
 from download import *
@@ -16,8 +16,7 @@ import time
 token = os.environ.get('FB_ACCESS_TOKEN')
 FB_VERIFY_TOKEN = os.environ.get('FB_VERIFY_TOKEN')
 api_key_weather = os.environ.get('WEATHER_API_KEY')
-
-me = os.environ.get('MY_ID') #ID de l'app
+me = os.environ.get('MY_ID')
 
 app = Flask(__name__)  #instance de la classe FLask. premier argument est le nom
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -442,7 +441,7 @@ def welcome():
     print('welcome envoyé')
     return 'welcome'
 
-nouveaute = "Nouveauté : Refonte de l'affichage de l'actualité\n"
+nouveaute = "Nouveauté : Actualité sauvegardé sur base de donnée et actualisée toutes les 10min. Message tous les matins.\n"
 
 # LISTE DE MOTS CLES 
 ponct_liste = ['.',',','!','?',';',':']
@@ -531,5 +530,4 @@ def send_welcome():
         print('envoyé à '+str(user[0]))
 
 if __name__ == '__main__':
-    #db.create_all()
     app.run(debug=True,use_reloader=False)
