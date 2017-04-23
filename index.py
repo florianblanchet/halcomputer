@@ -140,7 +140,7 @@ def webhook():
                     return 'nothing'
 
                 elif similitudes(news_liste,mots_du_msg)!=[]:
-                    if (time.time() - start_time)>600:
+                    if (time.time() - start_time)>60:
                         print(time.time() - start_time)
                         r = requests.post('https://pure-tundra-75365.herokuapp.com/')
                         print(time.time() - start_time)
