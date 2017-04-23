@@ -140,7 +140,7 @@ def webhook():
 
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
-                        mot_suivant = mots_du_msg[recherche_similitude(news_liste,mots_du_msg)+1]
+                        mot_suivant = mots_du_msg[recherche_similitude(actu_liste,mots_du_msg)]
                         payload = send_news2(sender,mot_suivant)
                         send_paquet(token,payload)
                         if mot_suivant !='sport':
@@ -401,7 +401,6 @@ def webhook():
                     print('Reponse au retour menu')
                     return 'nothing'
                 elif postback[:4]=='actu':
-                    #traitement_actu(postback,sender,1)
                     mot_suivant = postback[4:]
                     payload = send_news2(sender,mot_suivant)
                     send_paquet(token,payload)
@@ -457,6 +456,7 @@ date_liste = ['Date','date','jour','Jour','Mois','mois','année']
 wiki_liste = ['wikipedia','wiki']
 news_liste = ['actualites','actualite','news','actu','actus','journal','newspaper']
 merci_liste = ['merci','thanks','thank','gracias']
+actu_liste = ['monde','sport','world','culture','sante','france','business','economie','science']
 
 meteo_img = 'http://ian.umces.edu/imagelibrary/albums/userpics/12865/normal_ian-symbol-weather-solar-radiation.png'
 actu_img = 'http://icons.iconarchive.com/icons/zerode/plump/256/Network-Earth-icon.png'
