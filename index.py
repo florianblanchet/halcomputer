@@ -141,7 +141,7 @@ def webhook():
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
                         indice = recherche_similitude(actu_liste,mots_du_msg)
-                        if indice==None:
+                        if indice==None: # il ne trouve pas de categorie
                             texte = "Choisis ta catégorie :"
                             payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
                             send_paquet(token,payload)
@@ -158,7 +158,7 @@ def webhook():
                             ### Actualisation des news si ca fait plus de 10min
                             if (time.time() - start_time)>600:
                                 print('Heure départ recup news'+str(time.time() - start_time))
-                                r = requests.post('https://pure-tundra-75365.herokuapp.com/')
+                                r = requests.get('https://pure-tundra-75365.herokuapp.com/')
                                 print(r.text)
                                 print('Heure départ recup news'+str(time.time() - start_time))
                                 start_time = time.time()
@@ -457,7 +457,7 @@ date_liste = ['Date','date','jour','Jour','Mois','mois','année']
 wiki_liste = ['wikipedia','wiki']
 news_liste = ['actualites','actualite','news','actu','actus','journal','newspaper']
 merci_liste = ['merci','thanks','thank','gracias']
-actu_liste = ['monde','sport','world','culture','sante','france','business','sportive','sportif','economie','science','scientifique','culturelle','culturel','economique','mondiale','mondial','française','francaise','medicale','medical']
+actu_liste = ['une','top','monde','sport','world','culture','sante','france','business','sportive','sportif','economie','science','scientifique','culturelle','culturel','economique','mondiale','mondial','française','francaise','medicale','medical']
 
 meteo_img = 'http://ian.umces.edu/imagelibrary/albums/userpics/12865/normal_ian-symbol-weather-solar-radiation.png'
 actu_img = 'http://icons.iconarchive.com/icons/zerode/plump/256/Network-Earth-icon.png'
