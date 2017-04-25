@@ -223,7 +223,8 @@ def webhook():
                 elif 'snake' in mots_du_msg:
                     texte = "Allons jouer au snake !"
                     url = 'https://pure-tundra-75365.herokuapp.com/snake'
-                    payload = send_msg_button1_web(sender,texte,'Jouer',url)
+                    payload = send_msg_button1_web(sender,,'Jouer',)
+                    payload = send_msg_button1_web(sender,'Snake by Hal',texte,url,snake_img,'Jouer !')
                     send_paquet(token,payload)
                     print('Jeu Snake envoyee')
                     return 'nothing'
