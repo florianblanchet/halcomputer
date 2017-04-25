@@ -82,6 +82,28 @@ def send_msg_button1(sender,texte,nom_button,reponse_rapide):
     }
   }
  } 
+def send_msg_button1_web(sender,texte,nom_button,url):
+  return {
+  "recipient":{
+    "id":sender
+  },
+  "message":{
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":texte,
+        "buttons":[
+          {
+            "type":"web_url",
+            "title":nom_button,
+            "url":url
+          }
+        ]
+      }
+    }
+  }
+ } 
 def send_button2_postback_url(sender,texte,nom_button1,reponse_rapide1,nom_lien,link):
   return {"recipient":{"id":sender },
   "message":{

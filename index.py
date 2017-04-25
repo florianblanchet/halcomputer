@@ -215,9 +215,17 @@ def webhook():
                     
                 elif similitudes(menu_liste,mots_du_msg)!=[]:
                     texte = "Voici la carte, choisis ce qu'il te plait :"
-                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Snake',snake_img,'Fais croquer',pomme_img,'Météo',meteo_img)
                     send_paquet(token,payload)
                     print('Reponse au retour menu')
+                    return 'nothing'
+
+                elif 'snake' in mots_du_msg:
+                    texte = "Allons jouer au snake !"
+                    url = 'https://pure-tundra-75365.herokuapp.com/snake'
+                    payload = send_msg_button1_web(sender,texte,'Jouer',url)
+                    send_paquet(token,payload)
+                    print('Jeu Snake envoyee')
                     return 'nothing'
 
                 elif similitudes(vulgarite_liste,mots_du_msg)!=[]:
@@ -464,6 +472,7 @@ actu_img = 'http://icons.iconarchive.com/icons/zerode/plump/256/Network-Earth-ic
 wiki_img = 'http://www.icone-png.com/png/25/24983.png'
 date_img = 'https://cdn2.iconfinder.com/data/icons/perfect-flat-icons-2/512/Date_calendar_event_month_time_day_vector.png'
 pomme_img = 'https://s2.qwant.com/thumbr/0x0/5/8/3078a9585992fbea80e57c386326b7/b_1_q_0_p_0.jpg?u=http%3A%2F%2Fwww.free-icons-download.net%2Fimages%2Fred-apple-icon-54633.png&q=0&b=1&p=0&a=1' 
+snake_img = 'http://www.indir.org/icon/classic_snake_2_icon.png'
 
 # ENVOYER UN PAYLOAD
 def send_paquet(sender,payload):
