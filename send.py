@@ -101,6 +101,28 @@ def send_msg_button1_web(sender,title,subtitle,link,image_url,nom_button):
               "type":"web_url",
               "title":nom_button,
               "url":link
+            },
+            {
+            "type": "element_share",
+            "share_contents": { 
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                            "title": title,
+                            "subtitle": subtitle,
+                            "item_url": link,               
+                            "image_url": image_url,
+                            "buttons": [{
+                              "type": "web_url",
+                              "url": link,
+                              "title":nom_button
+                                }]
+                            }]
+                        }
+                    }
+                }
             }],
           }]
         }
