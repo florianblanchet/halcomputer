@@ -115,9 +115,9 @@ def send_msg_button1_web(sender,title,subtitle,link,image_url,nom_button):
                             "item_url": link,               
                             "image_url": image_url,
                             "buttons": [{
-                              "type": "web_url",
-                              "url": link,
-                              "title":nom_button
+                                  "type": "web_url",
+                                  "url": 'http://m.me/halcomputer', 
+                                  "title": 'Discuter avec Hal !'
                                 }]
                             }]
                         }

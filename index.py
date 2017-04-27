@@ -133,7 +133,7 @@ def webhook():
                 if similitudes(bonjour_liste,mots_du_msg)!=[]:
                     username = str(User.query.filter_by(user_id = sender).first().first_name)
                     texte = "Salut "+username+"!\n"+nouveaute+"Choisis :"
-                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Snake',snake_img,'Fais croquer',pomme_img,'Météo',meteo_img)
                     send_paquet(token,payload)
                     print('Reponse au bonjour envoyee')
                     return 'nothing'
@@ -221,7 +221,7 @@ def webhook():
                     return 'nothing'
 
                 elif 'snake' in mots_du_msg:
-                    texte = "Allons jouer au snake !"
+                    texte = "Allons jouer au snake !\nCommencez à discuter avec Hal et envoyez 'Snake' pour commencer la partie."
                     url = 'https://pure-tundra-75365.herokuapp.com/snake'
                     payload = send_msg_button1_web(sender,'Snake by Hal',texte,url,snake_img,'Jouer !')
                     send_paquet(token,payload)
@@ -399,13 +399,13 @@ def webhook():
                 type_msg_recu, postback = depaquet
                 if postback=='salut':
                     texte = "Salut!\n"+nouveaute+"Choisis :"
-                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Snake',snake_img,'Fais croquer',pomme_img,'Météo',meteo_img)
                     send_paquet(token,payload)
                     print('GET STARTED')
                     return 'nothing'
                 elif postback=='menu':
                     texte = "Voici la carte, choisis ce qu'il te plait :"
-                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Météo',meteo_img,'Fais croquer',pomme_img,'Wiki obama',wiki_img)
+                    payload = send_choix_multiple4(sender,texte,'Actualité',actu_img,'Snake',snake_img,'Fais croquer',pomme_img,'Météo',meteo_img)
                     send_paquet(token,payload)
                     print('Reponse au retour menu')
                     return 'nothing'
