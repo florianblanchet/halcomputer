@@ -147,6 +147,7 @@ def webhook():
                             payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
                             send_paquet(token,payload)
                             print('pas de categorie de news')
+                            return 'nothing'
                         else : 
                             mot_suivant = mots_du_msg[indice]
                             payload = send_news2(sender,mot_suivant)
@@ -164,6 +165,12 @@ def webhook():
                                 print('Heure départ recup news'+str(time.time() - start_time))
                                 start_time = time.time()
                             return 'nothing'
+                    else :
+                        texte = "Choisis ta catégorie :"
+                        payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
+                        send_paquet(token,payload)
+                        print('pas de categorie de news')
+                        return 'nothing'
 
                 elif similitudes(meteo_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1:
