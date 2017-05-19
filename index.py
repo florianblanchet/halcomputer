@@ -141,6 +141,7 @@ def webhook():
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
                         indice = recherche_similitude(actu_liste,mots_du_msg)
+                        print(indice)
                         if indice==None: # il ne trouve pas de categorie
                             texte = "Choisis ta catégorie :"
                             payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
