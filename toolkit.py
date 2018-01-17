@@ -62,6 +62,7 @@ def recherche_similitude(chercher,liste):
 def similitudes (a,b):
 
     return list(set(a).intersection(b)) 
+    
 def extract_ponct(texte,ponct_liste):
     l=''
     for i in range(len(texte)):

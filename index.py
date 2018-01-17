@@ -141,7 +141,7 @@ def webhook():
                 elif similitudes(news_liste,mots_du_msg)!=[]:
                     if len(mots_du_msg)>1: #Probleme si que le mot 'actualité' dans une phrase ou si 'monde' pas direct aprés
                         indice = recherche_similitude(actu_liste,mots_du_msg)
-                        print(indice)
+                        #print(indice)
                         if indice==None: # il ne trouve pas de categorie
                             texte = "Choisis ta catégorie :"
                             payload = send_choix_multiple7(sender,texte,'Actu Une','Actu Monde','Actu France','Actu Sport','Actu Business','Actu Culture','Actu Santé')
@@ -515,14 +515,17 @@ def send_news2(sender,mot_suivant):
     payload = send_link6(sender,une[0]['titre'],une[0]['journal'],une[0]['image'],une[0]['lien'],une[1]['titre'],une[1]['journal'],une[1]['image'],une[1]['lien'],une[2]['titre'],une[2]['journal'],une[2]['image'],une[2]['lien'],une[3]['titre'],une[3]['journal'],une[3]['image'],une[3]['lien'],une[4]['titre'],une[4]['journal'],une[4]['image'],une[4]['lien'],une[5]['titre'],une[5]['journal'],une[5]['image'],une[5]['lien'])
   return payload
 def extract_news(categorie):
-    articles = []
-    for newss in db.session.query(News).filter_by(categorie=categorie):
-        article = {}
-        article['titre'] = newss.titre
-        article['journal'] = newss.journal
-        article['lien'] = newss.lien
-        article['image'] = newss.image
-        articles.append(article)
+
+    news = download_news3()
+    articles = new[categorie]
+
+    #for newss in db.session.query(News).filter_by(categorie=categorie):
+    #    article = {}
+    #    article['titre'] = newss.titre
+    #    article['journal'] = newss.journal
+    #    article['lien'] = newss.lien
+    #    article['image'] = newss.image
+    #    articles.append(article)
     return articles
 def liste_user():
     liste_id=[]

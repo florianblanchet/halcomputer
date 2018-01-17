@@ -81,6 +81,44 @@ def download_news2():
     news['sport'] = hello[26 : 30]
     news['sante'] = hello[30 : 34]
     return news
+def download_news3():
+    url = 'https://news.google.com/news/headlines?ned=fr&hl=fr&gl=FR'
+    #url = 'https://news.google.com/?edchanged=1&ned=fr&authuser=0'
+    req = urllib.request.Request(url)
+    the_page = urllib.request.urlopen(req)
+    page = the_page.read()
+    soup = BeautifulSoup(page, 'html.parser')
+    news ={}
+    hello=[]
+    articles = soup.find_all("c-wiz",attrs={"class":"PaqQNc"})
+    #print(articles))
+    for i in range(len(articles)):
+        articles[i] = BeautifulSoup(str(articles[i]),'html.parser')
+        article={}
+        photo = articles[i].find("img")
+        if photo!=None:
+            photo_url = photo.get('imgsrc')
+            if photo_url!=None:
+                article['image']=str(photo_url)
+            else:
+                article['image']=str(photo.get('src'))
+        else:
+            article['image']=''
+        article['titre'] = str(articles[i].find("a",attrs={"class":"nuEeue"}).getText())
+        article['lien'] = str(articles[i].find("a",attrs={"class":"nuEeue"}).get('href'))
+        #contenu = articles[i].find_all("div",attrs={"class":"esc-lead-snippet-wrapper"})
+        article['journal'] = str(articles[i].find("span",attrs={"class":"IH8C7b"}).getText())
+        hello.append(article)
+    news['une'] = hello[0:6]
+    news['world'] = hello[6:10]
+    news['france'] = hello[10 : 14]
+    news['economie'] = hello[14 : 18]
+    news['science'] = hello[18 : 22]
+    news['culture'] = hello[22 : 26]
+    news['sport'] = hello[26 : 30]
+    news['sante'] = hello[30 : 34]
+    return news
+
 def download_meteo(api_key_weather,latitude,longitude):
     url = 'http://api.openweathermap.org/data/2.5/weather?' \
                'lat={}&lon={}&appid={}&units={}&lang={}'.format(latitude,longitude,api_key_weather, 'metric', 'fr')
