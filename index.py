@@ -517,7 +517,7 @@ def send_news2(sender,mot_suivant):
 def extract_news(categorie):
 
     news = download_news3()
-    articles = new[categorie]
+    articles = news[categorie]
 
     #for newss in db.session.query(News).filter_by(categorie=categorie):
     #    article = {}
